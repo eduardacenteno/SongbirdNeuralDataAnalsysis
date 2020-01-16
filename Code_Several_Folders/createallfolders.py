@@ -29,23 +29,23 @@ for item in range(len(listsubdirs)):
     print("Working on folder:" + listsubdirs[item])
     os.chdir(listsubdirs[item])
     l=os.getcwd()
-    if glob.glob('*.smr') != []:
-        file = glob.glob('*.smr')[0]
+    if glob.glob("*.smr") != []:
+        file = glob.glob("*.smr")[0]
     else:
         continue
     
     #Check if file with units and windows is in the folder
     if not os.path.isfile("unitswindow.txt"):
         info_list = [] 
-        unit=''
-        windowbeg=''
-        windowend=''
+        unit=""
+        windowbeg=""
+        windowend=""
         print("Enter the useful units and windows (press * to terminate) ")
-        while unit != '*':
+        while unit != "*":
             unit = input("Unit?")
             windowbeg= input("Beginning of Window [in seconds]?")
             windowend= input("End of Window [in seconds]?")
-            if(unit!='*'):
+            if(unit!="*"):
                 info_list+=[[unit,windowbeg,windowend]]
         np.savetxt("unitswindow.txt", info_list, fmt="%s")
     
@@ -93,10 +93,14 @@ for item in range(len(listsubdirs)):
     basend=int(infosr[4])
     motifile="..\\" +"labels.txt"
     smr="..\\" + file
+    ### Get the tones/sybcuts for further analysis
+    if not os.path.isfile("CheckSylsFreq.txt"):
+        fich= open("CheckSylsFreq.txt", mode="w+")
+        fich.close()
     
     ### Get LFP downsampled
     print("Obtaining the Downsampled LFP..")
-    functionspop.lfpdown(raw)
+    functionspop.lfpdown(raw, fs)
     
     ## Get Spikeshapes
     print("Obtaining the SpikeShapes..")
